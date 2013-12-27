@@ -4,6 +4,13 @@ class KoanScreen < PM::Screen
   def on_load
     self.title = koan.title
     self.view.backgroundColor = UIColor.whiteColor
+    App.notification_center.observe UIContentSizeCategoryDidChangeNotification do |notification|
+      preferred_content_size_changed
+    end
+  end
+
+  def preferred_content_size_changed
+    @textView.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
   end
 
   def will_appear
@@ -11,36 +18,16 @@ class KoanScreen < PM::Screen
   end
 
   def set_up_view
-    add text = UITextView.new,
+    add @textView = UITextView.new,
       resize: [ :left, :right, :top ],
       frame: CGRectMake(10, 10,
-                        self.view.bounds.size.width - 10,
-                        self.view.bounds.size.height)
+                        self.view.bounds.size.width - 15,
+                        self.view.bounds.size.height - 10)
 
-    text.editable = false
-    text.font = UIFont.fontWithName("Avenir", size: get_text_size)
-    text.text = koan.text
+    @textView.editable = false
+    @textView.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+    @textView.text = koan.text
 
     true
-  end
-
-  def get_text_size
-    contentSize = UIApplication.sharedApplication.preferredContentSizeCategory
-    if contentSize == UIContentSizeCategoryExtraSmall
-      font_size = 12.0
-    elsif contentSize == UIContentSizeCategorySmall
-      font_size = 14.0
-    elsif contentSize == UIContentSizeCategoryMedium
-      font_size = 16.0
-    elsif contentSize == UIContentSizeCategoryLarge
-      font_size = 18.0
-    elsif contentSize == UIContentSizeCategoryExtraLarge
-      font_size = 20.0
-    elsif contentSize == UIContentSizeCategoryExtraExtraLarge
-      font_size = 22.0
-    elsif contentSize == UIContentSizeCategoryExtraExtraExtraLarge
-      font_size = 24.0
-    end
-    font_size
   end
 end
