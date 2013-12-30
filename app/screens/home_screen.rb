@@ -7,7 +7,9 @@ class HomeScreen < PM::TableScreen
     self.navigationController.navigationBar.barTintColor = backgroundColor
     self.navigationController.navigationBar.tintColor = UIColor.whiteColor
     self.navigationController.navigationBar.translucent = false
-    self.navigationController.navigationBar.titleTextAttributes = {UITextAttributeTextColor => UIColor.whiteColor}
+    self.navigationController.navigationBar.titleTextAttributes = {
+      UITextAttributeTextColor => UIColor.whiteColor
+    }
     set_nav_bar_button :right, title: "?", action: :go_to_info
     App.notification_center.observe UIContentSizeCategoryDidChangeNotification do |notification|
       preferred_content_size_changed
@@ -50,6 +52,10 @@ class HomeScreen < PM::TableScreen
   end
 
   def read_koan(args={})
-    open KoanScreen.new(koan: args[:koan])
+    if Device.iphone?
+      open KoanScreen.new(koan: args[:koan])
+    elsif Device.ipad?
+      open KoanScreen.new(koan: args[:koan], nav_bar: true), in_detail: true
+    end
   end
 end

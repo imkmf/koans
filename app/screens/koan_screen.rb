@@ -15,19 +15,36 @@ class KoanScreen < PM::Screen
 
   def will_appear
     @view_setup ||= set_up_view
+    nav_setup if Device.ipad?
   end
 
   def set_up_view
-    add @textView = UITextView.new,
-      resize: [ :left, :right, :top ],
-      frame: CGRectMake(10, 10,
-                        self.view.bounds.size.width - 15,
-                        self.view.bounds.size.height - 10)
+    if Device.iphone?
+      add @textView = UITextView.new,
+        resize: [ :left, :right, :top ],
+        frame: CGRectMake(10, 10,
+                          self.view.bounds.size.width - 15,
+                          self.view.bounds.size.height - 10)
+    elsif Device.ipad?
+      add @textView = UITextView.new,
+        resize: [ :left, :right, :top ],
+        frame: CGRectMake(10, 80,
+                          self.view.bounds.size.width - 15,
+                          self.view.bounds.size.height - 10)
+    end
 
     @textView.editable = false
     @textView.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
     @textView.text = koan.text
 
     true
+  end
+
+  def nav_setup
+    backgroundColor = BubbleWrap.rgb_color(0, 153, 153)
+    self.navigationController.navigationBar.barTintColor = backgroundColor
+    self.navigationController.navigationBar.tintColor = UIColor.whiteColor
+    self.navigationController.navigationBar.translucent = false
+    self.navigationController.navigationBar.titleTextAttributes = {UITextAttributeTextColor => UIColor.whiteColor}
   end
 end

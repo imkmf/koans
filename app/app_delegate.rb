@@ -11,6 +11,12 @@ class AppDelegate < PM::Delegate
       end
       Koan.serialize_to_file("koans.dat")
     end
-    open HomeScreen.new(koans: Koan.all.sort_by(&:title), nav_bar: true)
+    @koans = Koan.all.sort_by(&:title)
+    if Device.iphone?
+      open HomeScreen.new(koans: @koans, nav_bar: true)
+    elsif Device.ipad?
+      open_split_screen HomeScreen.new(koans: @koans, nav_bar: true),
+        KoanScreen.new(koan: Koan.first, nav_bar: true)
+    end
   end
 end
