@@ -1,8 +1,8 @@
-class KoanScreen < PM::Screen
-  attr_accessor :koan
+class TextScreen < PM::Screen
+  attr_accessor :model_for_text
 
   def on_load
-    self.title = koan.title
+    self.title = model_for_text.title
     self.view.backgroundColor = UIColor.whiteColor
     App.notification_center.observe UIContentSizeCategoryDidChangeNotification do |notification|
       preferred_content_size_changed
@@ -35,7 +35,7 @@ class KoanScreen < PM::Screen
 
     @textView.editable = false
     @textView.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-    @textView.text = koan.text
+    @textView.text = model_for_text.text
 
     true
   end
