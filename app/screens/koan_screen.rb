@@ -1,8 +1,8 @@
-class TextScreen < PM::Screen
-  attr_accessor :model_for_text
+class KoanScreen < PM::Screen
+  attr_accessor :koan
 
   def on_load
-    self.title = model_for_text.title
+    self.title = koan.title
     self.view.backgroundColor = UIColor.whiteColor
     App.notification_center.observe UIContentSizeCategoryDidChangeNotification do |notification|
       preferred_content_size_changed
@@ -35,18 +35,9 @@ class TextScreen < PM::Screen
 
     @textView.editable = false
     @textView.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-    @textView.text = model_for_text.text
+    @textView.text = koan.text
 
     true
-  end
-
-  def share
-    item = SHKItem.text("This is the text you'll be sharing!")
-    actionSheet = SHKActionSheet.actionSheetForItem(item)
-
-    SHK.setRootViewController(self)
-
-    actionSheet.showInView(self.view)
   end
 
   def nav_setup

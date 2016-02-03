@@ -15,6 +15,10 @@ Motion::Project::App.setup do |app|
   }
   app.device_family = [:iphone, :ipad]
 
+  app.pods do
+    pod 'ShareKit/Twitter'
+  end
+
   app.development do
     # app.codesign_certificate = "iPhone Distribution: Kristian Freeman (5SBY45UWAH)"
     app.provisioning_profile = "/Users/kristian/Library/MobileDevice/Provisioning Profiles/D67F5244-35A4-4842-9337-A3257696CE44.mobileprovision"

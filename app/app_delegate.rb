@@ -3,6 +3,8 @@ class AppDelegate < PM::Delegate
   def on_load(app, options)
     UIApplication.sharedApplication.setStatusBarStyle(UIStatusBarStyleLightContent)
     Document.deserialize_from_file("documents.dat")
+    SHKConfiguration.sharedInstanceWithConfigurator(SharekitConfiguration.alloc.init)
+    SHK.flushOfflineQueue
     if Document.count == 0
       path = NSBundle.mainBundle.pathForResource("documents", ofType:"dat")
       fileManager = NSFileManager.defaultManager
